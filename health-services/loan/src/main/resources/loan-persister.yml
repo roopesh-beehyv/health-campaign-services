@@ -1,0 +1,110 @@
+serviceMaps:
+  serviceName: loan
+  mappings:
+    - version: 1.0
+      description: Persists Loan
+      fromTopic: save-loan-topic
+      isTransaction: true
+      queryMaps:
+        - query: INSERT INTO loan(id, tenantId, type, name, interestRate, durationPeriod, provider, contact, additionalDetails, createdBy, lastModifiedBy, createdTime, lastModifiedTime, rowVersion, isDeleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+          basePath: $.*
+          jsonMaps:
+            - jsonPath: $.*.id
+            - jsonPath: $.*.tenantId
+            - jsonPath: $.*.type
+            - jsonPath: $.*.name
+            - jsonPath: $.*.interestRate
+            - jsonPath: $.*.durationPeriod
+            - jsonPath: $.*.provider
+            - jsonPath: $.*.contact
+            - jsonPath: $.*.additionalFields
+              type: JSON
+              dbType: JSONB
+            - jsonPath: $.*.auditDetails.createdBy
+            - jsonPath: $.*.auditDetails.lastModifiedBy
+            - jsonPath: $.*.auditDetails.createdTime
+            - jsonPath: $.*.auditDetails.lastModifiedTime
+            - jsonPath: $.*.rowVersion
+            - jsonPath: $.*.isDeleted
+
+    - version: 1.0
+      description: Updates Loan
+      fromTopic: update-loan-topic
+      isTransaction: true
+      queryMaps:
+        - query: UPDATE loan SET tenantId = ?, type = ?, name = ?, interestRate = ?, durationPeriod = ?, provider = ?, contact = ?, additionalDetails = ?, lastModifiedBy = ?, lastModifiedTime = ?, rowVersion = ?, isDeleted = ? WHERE id = ?
+          basePath: $.*
+          jsonMaps:
+            - jsonPath: $.*.tenantId
+            - jsonPath: $.*.type
+            - jsonPath: $.*.name
+            - jsonPath: $.*.interestRate
+            - jsonPath: $.*.durationPeriod
+            - jsonPath: $.*.provider
+            - jsonPath: $.*.contact
+            - jsonPath: $.*.additionalFields
+              type: JSON
+              dbType: JSONB
+            - jsonPath: $.*.auditDetails.lastModifiedBy
+            - jsonPath: $.*.auditDetails.lastModifiedTime
+            - jsonPath: $.*.rowVersion
+            - jsonPath: $.*.isDeleted
+            - jsonPath: $.*.id
+
+    - version: 1.0
+      description: Persists Loan Application
+      fromTopic: save-loan-application-topic
+      isTransaction: true
+      queryMaps:
+        - query: INSERT INTO loan_application(id, tenantId, loanId, applicantId, tenure, hasConsented, defaultedMonths, hasDefaulted, status, rejectionReason, additionalDetails, createdBy, lastModifiedBy, createdTime, lastModifiedTime, rowVersion, isDeleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+          basePath: $.*
+          jsonMaps:
+            - jsonPath: $.*.id
+            - jsonPath: $.*.tenantId
+            - jsonPath: $.*.loanId
+            - jsonPath: $.*.applicantId
+            - jsonPath: $.*.tenure
+            - jsonPath: $.*.hasConsented
+            - jsonPath: $.*.defaultedMonths
+              type: ARRAY
+              dbType: STRING
+            - jsonPath: $.*.hasDefaulted
+            - jsonPath: $.*.status
+            - jsonPath: $.*.rejectionReason
+            - jsonPath: $.*.additionalFields
+              type: JSON
+              dbType: JSONB
+            - jsonPath: $.*.auditDetails.createdBy
+            - jsonPath: $.*.auditDetails.lastModifiedBy
+            - jsonPath: $.*.auditDetails.createdTime
+            - jsonPath: $.*.auditDetails.lastModifiedTime
+            - jsonPath: $.*.rowVersion
+            - jsonPath: $.*.isDeleted
+
+    - version: 1.0
+      description: Updates Loan Application
+      fromTopic: update-loan-application-topic
+      isTransaction: true
+      queryMaps:
+        - query: UPDATE loan_application SET tenantId = ?, loanId = ?, applicantId = ?, tenure = ?, hasConsented = ?, defaultedMonths = ?, hasDefaulted = ?, status = ?, rejectionReason = ?, additionalDetails = ?, lastModifiedBy = ?, lastModifiedTime = ?, rowVersion = ?, isDeleted = ? WHERE id = ?
+          basePath: $.*
+          jsonMaps:
+            - jsonPath: $.*.tenantId
+            - jsonPath: $.*.loanId
+            - jsonPath: $.*.applicantId
+            - jsonPath: $.*.tenure
+            - jsonPath: $.*.hasConsented
+            - jsonPath: $.*.defaultedMonths
+              type: ARRAY
+              dbType: STRING
+            - jsonPath: $.*.hasDefaulted
+            - jsonPath: $.*.status
+            - jsonPath: $.*.rejectionReason
+            - jsonPath: $.*.additionalFields
+              type: JSON
+              dbType: JSONB
+            - jsonPath: $.*.auditDetails.lastModifiedBy
+            - jsonPath: $.*.auditDetails.lastModifiedTime
+            - jsonPath: $.*.rowVersion
+            - jsonPath: $.*.isDeleted
+            - jsonPath: $.*.id

@@ -1,0 +1,23 @@
+ServiceMaps:
+  serviceName: loan
+  version: 1.0.0
+  mappings:
+    - topic: save-loan-topic
+      configKey: INDEX
+      indexes:
+        - name: loanIndex-v1
+          type: loan
+          id: $.*.id
+          isBulk: true
+          jsonPath: $.*
+          timeStampField: $.*.auditDetails.createdTime
+
+    - topic: save-loan-application-topic
+      configKey: INDEX
+      indexes:
+        - name: loanApplicationIndex-v1
+          type: loanApplication
+          id: $.*.id
+          isBulk: true
+          jsonPath: $.*
+          timeStampField: $.*.auditDetails.createdTime
