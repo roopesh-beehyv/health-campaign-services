@@ -55,7 +55,7 @@ public class LoanApplication {
     private Boolean hasConsented = false;
 
     @JsonProperty("defaultedMonths")
-    private List<String> defaultedMonths = null;
+    private String defaultedMonths = null;
 
     @JsonProperty("hasDefaulted")
     private Boolean hasDefaulted = false;

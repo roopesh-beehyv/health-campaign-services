@@ -66,8 +66,6 @@ serviceMaps:
             - jsonPath: $.*.tenure
             - jsonPath: $.*.hasConsented
             - jsonPath: $.*.defaultedMonths
-              type: ARRAY
-              dbType: STRING
             - jsonPath: $.*.hasDefaulted
             - jsonPath: $.*.status
             - jsonPath: $.*.rejectionReason
@@ -95,8 +93,6 @@ serviceMaps:
             - jsonPath: $.*.tenure
             - jsonPath: $.*.hasConsented
             - jsonPath: $.*.defaultedMonths
-              type: ARRAY
-              dbType: STRING
             - jsonPath: $.*.hasDefaulted
             - jsonPath: $.*.status
             - jsonPath: $.*.rejectionReason

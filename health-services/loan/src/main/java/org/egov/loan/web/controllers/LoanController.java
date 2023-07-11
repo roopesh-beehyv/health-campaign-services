@@ -6,14 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.egov.common.utils.ResponseInfoFactory;
 import org.egov.loan.service.LoanApplicationService;
 import org.egov.loan.service.LoanService;
-import org.egov.loan.web.models.Loan;
-import org.egov.loan.web.models.LoanApplication;
-import org.egov.loan.web.models.LoanApplicationRequest;
-import org.egov.loan.web.models.LoanApplicationResponse;
-import org.egov.loan.web.models.LoanApplicationSearchRequest;
-import org.egov.loan.web.models.LoanRequest;
-import org.egov.loan.web.models.LoanResponse;
-import org.egov.loan.web.models.LoanSearchRequest;
+import org.egov.loan.web.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,14 +63,13 @@ public class LoanController {
 
     @RequestMapping(value = "/v1/_search", method = RequestMethod.POST)
     public ResponseEntity<LoanResponse> loanV1SearchPost(@ApiParam(value = "Capture details of Loan.", required = true) @Valid @RequestBody LoanSearchRequest loanSearchRequest,
-                                                               @NotNull @Min(0) @Max(1000) @ApiParam(value = "Pagination - limit records in response", required = true) @Valid @RequestParam(value = "limit", required = true) Integer limit,
-                                                               @NotNull @Min(0) @ApiParam(value = "Pagination - offset from which records should be returned in response", required = true) @Valid @RequestParam(value = "offset", required = true) Integer offset,
-                                                               @NotNull @ApiParam(value = "Unique id for a tenant.", required = true) @Valid @Size(min = 2, max = 1000) @RequestParam(value = "tenantId", required = true) String tenantId,
-                                                               @ApiParam(value = "epoch of the time since when the changes on the object should be picked up. Search results from this parameter should include both newly created objects since this time as well as any modified objects since this time. This criterion is included to help polling clients to get the changes in system since a last time they synchronized with the platform. ") @Valid @RequestParam(value = "lastChangedSince", required = false) Long lastChangedSince,
-                                                               @ApiParam(value = "Used in search APIs to specify if (soft) deleted records should be included in search results.", defaultValue = "false") @Valid @RequestParam(value = "includeDeleted", required = false, defaultValue = "false") Boolean includeDeleted) throws Exception {
+                                                         @NotNull @Min(0) @Max(1000) @ApiParam(value = "Pagination - limit records in response", required = true) @Valid @RequestParam(value = "limit", required = true) Integer limit,
+                                                         @NotNull @Min(0) @ApiParam(value = "Pagination - offset from which records should be returned in response", required = true) @Valid @RequestParam(value = "offset", required = true) Integer offset,
+                                                         @NotNull @ApiParam(value = "Unique id for a tenant.", required = true) @Valid @Size(min = 2, max = 1000) @RequestParam(value = "tenantId", required = true) String tenantId,
+                                                         @ApiParam(value = "epoch of the time since when the changes on the object should be picked up. Search results from this parameter should include both newly created objects since this time as well as any modified objects since this time. This criterion is included to help polling clients to get the changes in system since a last time they synchronized with the platform. ") @Valid @RequestParam(value = "lastChangedSince", required = false) Long lastChangedSince,
+                                                         @ApiParam(value = "Used in search APIs to specify if (soft) deleted records should be included in search results.", defaultValue = "false") @Valid @RequestParam(value = "includeDeleted", required = false, defaultValue = "false") Boolean includeDeleted) throws Exception {
 
-        List<Loan> loans = loanService.search(loanSearchRequest, limit, offset, tenantId,
-                lastChangedSince, includeDeleted);
+        List<Loan> loans = loanService.search(loanSearchRequest, limit, offset, tenantId, lastChangedSince, includeDeleted);
         LoanResponse loanResponse = LoanResponse.builder()
                 .loans(loans)
                 .responseInfo(ResponseInfoFactory.createResponseInfo(loanSearchRequest.getRequestInfo(), true))
@@ -111,11 +103,11 @@ public class LoanController {
 
     @RequestMapping(value = "/application/v1/_search", method = RequestMethod.POST)
     public ResponseEntity<LoanApplicationResponse> loanApplicationV1SearchPost(@ApiParam(value = "Capture details of Loan Application.", required = true) @Valid @RequestBody LoanApplicationSearchRequest loanApplicationSearchRequest,
-                                                         @NotNull @Min(0) @Max(1000) @ApiParam(value = "Pagination - limit records in response", required = true) @Valid @RequestParam(value = "limit", required = true) Integer limit,
-                                                         @NotNull @Min(0) @ApiParam(value = "Pagination - offset from which records should be returned in response", required = true) @Valid @RequestParam(value = "offset", required = true) Integer offset,
-                                                         @NotNull @ApiParam(value = "Unique id for a tenant.", required = true) @Valid @Size(min = 2, max = 1000) @RequestParam(value = "tenantId", required = true) String tenantId,
-                                                         @ApiParam(value = "epoch of the time since when the changes on the object should be picked up. Search results from this parameter should include both newly created objects since this time as well as any modified objects since this time. This criterion is included to help polling clients to get the changes in system since a last time they synchronized with the platform. ") @Valid @RequestParam(value = "lastChangedSince", required = false) Long lastChangedSince,
-                                                         @ApiParam(value = "Used in search APIs to specify if (soft) deleted records should be included in search results.", defaultValue = "false") @Valid @RequestParam(value = "includeDeleted", required = false, defaultValue = "false") Boolean includeDeleted) throws Exception {
+                                                                               @NotNull @Min(0) @Max(1000) @ApiParam(value = "Pagination - limit records in response", required = true) @Valid @RequestParam(value = "limit", required = true) Integer limit,
+                                                                               @NotNull @Min(0) @ApiParam(value = "Pagination - offset from which records should be returned in response", required = true) @Valid @RequestParam(value = "offset", required = true) Integer offset,
+                                                                               @NotNull @ApiParam(value = "Unique id for a tenant.", required = true) @Valid @Size(min = 2, max = 1000) @RequestParam(value = "tenantId", required = true) String tenantId,
+                                                                               @ApiParam(value = "epoch of the time since when the changes on the object should be picked up. Search results from this parameter should include both newly created objects since this time as well as any modified objects since this time. This criterion is included to help polling clients to get the changes in system since a last time they synchronized with the platform. ") @Valid @RequestParam(value = "lastChangedSince", required = false) Long lastChangedSince,
+                                                                               @ApiParam(value = "Used in search APIs to specify if (soft) deleted records should be included in search results.", defaultValue = "false") @Valid @RequestParam(value = "includeDeleted", required = false, defaultValue = "false") Boolean includeDeleted) throws Exception {
 
         List<LoanApplication> loanApplications = loanApplicationService.search(loanApplicationSearchRequest, limit, offset, tenantId,
                 lastChangedSince, includeDeleted);

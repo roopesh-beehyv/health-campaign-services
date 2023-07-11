@@ -34,7 +34,7 @@ public class LoanApplicationRowMapper implements RowMapper<LoanApplication> {
                     .status(resultSet.getString("status"))
                     .rejectionReason(resultSet.getString("rejectionReason"))
                     .tenure(resultSet.getInt("tenure"))
-                    .defaultedMonths(StringUtils.isEmpty(defaultedMonths) ? Arrays.asList() : Arrays.asList(defaultedMonths.split(",")))
+                    .defaultedMonths(defaultedMonths)
                     .auditDetails(AuditDetails.builder()
                             .createdBy(resultSet.getString("createdby"))
                             .createdTime(resultSet.getLong("createdtime"))
