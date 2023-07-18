@@ -1,0 +1,47 @@
+ServiceMaps:
+  serviceName: Scheme Registration Service
+  version: 1.0.0
+  mappings:
+    - topic: save-sc-application
+      configKey: INDEX
+      indexes:
+        - name: scindex-v1
+          type: general
+          id: $.id
+          isBulk: true
+          timeStampField: $.auditDetails.createdTime
+          jsonPath: $.SchemeApplications
+          customJsonMapping:
+            indexMapping: {"Data":{"schemeapplication":{},"history":{}}}
+            fieldMapping:
+              - inJsonPath: $
+                outJsonPath: $.Data.schemeapplication
+            externalUriMapping:
+              - path: http://egov-workflow-v2:8080/egov-workflow-v2/egov-wf/process/_search
+                queryParam: businessIds=$.applicationNumber,history=true,tenantId=$.tenantId
+                apiRequest: {"RequestInfo":{"apiId":"org.egov.pt","ver":"1.0","ts":1502890899493,"action":"asd","did":"4354648646","key":"xyz","msgId":"654654","requesterId":"61","authToken":"a6f20be8-9f34-430c-a74c-cf1bb7be036f","userInfo":{"id":93,"uuid":"75ba9636-80fb-4053-b21b-74c842cb7ee3","type":"EMPLOYEE","tenantId":"pg","roles":[{"name":"Super User","code":"Super_User","tenantId":"pg"}]}}}
+                uriResponseMapping:
+                  - inJsonPath: $.ProcessInstances
+                    outJsonPath: $.Data.history
+
+    - topic: update-sc-application
+      configKey: INDEX
+      indexes:
+        - name: scindex-v1
+          type: general
+          id: $.id
+          isBulk: true
+          timeStampField: $.auditDetails.createdTime
+          jsonPath: $.SchemeApplications
+          customJsonMapping:
+            indexMapping: {"Data":{"schemeapplication":{},"history":{}}}
+            fieldMapping:
+              - inJsonPath: $
+                outJsonPath: $.Data.schemeapplication
+            externalUriMapping:
+              - path: http://egov-workflow-v2:8080/egov-workflow-v2/egov-wf/process/_search
+                queryParam: businessIds=$.applicationNumber,history=true,tenantId=$.tenantId
+                apiRequest: {"RequestInfo":{"apiId":"org.egov.pt","ver":"1.0","ts":1502890899493,"action":"asd","did":"4354648646","key":"xyz","msgId":"654654","requesterId":"61","authToken":"a6f20be8-9f34-430c-a74c-cf1bb7be036f","userInfo":{"id":93,"uuid":"75ba9636-80fb-4053-b21b-74c842cb7ee3","type":"EMPLOYEE","tenantId":"pg","roles":[{"name":"Super User","code":"Super_User","tenantId":"pg"}]}}}
+                uriResponseMapping:
+                  - inJsonPath: $.ProcessInstances
+                    outJsonPath: $.Data.history

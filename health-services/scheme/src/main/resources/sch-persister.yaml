@@ -1,0 +1,46 @@
+serviceMaps:
+  serviceName: sch-services
+  mappings:
+    - version: 1.0
+      description: Persists scheme details in tables
+      fromTopic: save-sc-application
+      isTransaction: true
+      queryMaps:
+
+        - query: INSERT INTO eg_sch_registration(id,tenantid,applicationnumber,name,land,createdby,lastmodifiedby,createdtime, lastmodifiedtime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+          basePath: SchemeApplications.*
+          jsonMaps:
+            - jsonPath: $.SchemeApplications.*.id
+
+            - jsonPath: $.SchemeApplications.*.tenantId
+
+            - jsonPath: $.SchemeApplications.*.applicationNumber
+
+            - jsonPath: $.SchemeApplications.*.name
+
+            - jsonPath: $.SchemeApplications.*.land
+
+            - jsonPath: $.SchemeApplications.*.auditDetails.createdBy
+
+            - jsonPath: $.SchemeApplications.*.auditDetails.lastModifiedBy
+
+            - jsonPath: $.SchemeApplications.*.auditDetails.createdTime
+
+            - jsonPath: $.SchemeApplications.*.auditDetails.lastModifiedTime
+
+
+    - version: 1.0
+      description: Update scheme registration applications in table
+      fromTopic: update-sc-application
+      isTransaction: true
+      queryMaps:
+        - query: UPDATE eg_sch_registration SET tenantid = ?,name = ?, land = ? WHERE id=?;
+          basePath: SchemeApplications.*
+          jsonMaps:
+            - jsonPath: $.SchemeApplications.*.tenantId
+
+            - jsonPath: $.SchemeApplications.*.name
+
+            - jsonPath: $.SchemeApplications.*.land
+
+            - jsonPath: $.SchemeApplications.*.id
