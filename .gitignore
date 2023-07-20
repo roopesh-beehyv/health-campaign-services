@@ -3,3 +3,5 @@ frontend/micro-ui-internals/node_modules/*
 .idea
 index.lock
 /health-services/stock/stock.iml
+*.class
+**/target/*
